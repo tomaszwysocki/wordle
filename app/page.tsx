@@ -2,9 +2,11 @@
 
 import { useCallback, useEffect, useState } from 'react'
 
+type Colors = 'GREEN' | 'YELLOW' | 'RED'
+
 interface Letter {
     letter: string
-    color: 'GREEN' | 'YELLOW' | 'RED'
+    color: Colors
 }
 
 const Home = () => {
@@ -29,10 +31,7 @@ const Home = () => {
         'drove',
     ]
 
-    const isLetterCorrect = (
-        letter: string,
-        idx: number
-    ): 'GREEN' | 'YELLOW' | 'RED' => {
+    const isLetterCorrect = (letter: string, idx: number): Colors => {
         if (letter === answer.toUpperCase().charAt(idx)) {
             return 'GREEN'
         }
@@ -121,25 +120,19 @@ const Home = () => {
                     <h2 className='text-3xl mt-6 font-light'>Word not found</h2>
                 )}
             </div>
-            <div className='game flex flex-col gap-2'>
+            <div className='game flex flex-col gap-[0.6rem]'>
                 {Array.from({ length: 6 }, (_, i) => (
-                    <div key={i} className='flex gap-2'>
+                    <div key={i} className='flex gap-[0.6rem]'>
                         {Array.from({ length: 5 }, (_, j) => (
                             <div
                                 key={j}
-                                className={`size-20 font-medium text-5xl text-center leading-[5rem] ${
-                                    !didWin &&
-                                    i === currentRow &&
-                                    wordle.length === j
-                                        ? 'bg-zinc-600'
-                                        : 'bg-zinc-700'
-                                } ${
+                                className={`size-20 border-solid border-zinc-700 border-2 font-medium text-5xl text-center leading-[78px] ${
                                     i < currentRow
                                         ? words?.[i]?.[j].color === 'GREEN'
-                                            ? 'bg-green-600'
+                                            ? 'bg-green-600 border-0'
                                             : words?.[i]?.[j].color === 'YELLOW'
-                                            ? 'bg-yellow-400'
-                                            : 'bg-red-600'
+                                            ? 'bg-yellow-600 border-0'
+                                            : 'bg-zinc-800 border-0'
                                         : ''
                                 }`}
                             >
