@@ -12,6 +12,7 @@ const Home = () => {
     const [words, setWords] = useState<Letter[][]>([])
     const [answer, setAnswer] = useState('')
     const [didWin, setDidWin] = useState(false)
+    const [notFound, setNotFound] = useState(false)
     let currentRow = words.length
 
     const possibleWords = [
@@ -45,6 +46,8 @@ const Home = () => {
 
     const handleKeystroke = useCallback(
         (e: KeyboardEvent) => {
+            setNotFound(false)
+
             if (didWin) {
                 return
             }
@@ -59,6 +62,11 @@ const Home = () => {
             if (wordle.length === 5 && e.key === 'Enter') {
                 if (wordle.join('') === answer) {
                     setDidWin(true)
+                }
+
+                if (!possibleWords.includes(wordle.join('').toLowerCase())) {
+                    setNotFound(true)
+                    return
                 }
 
                 const guess = wordle.map((letter, idx) => ({
@@ -104,9 +112,12 @@ const Home = () => {
 
     return (
         <main className='flex min-h-screen flex-col items-center p-24'>
-            <h1 className='text-7xl'>Wordle</h1>
-            {didWin && <h2 className='text-5xl mt-8'>You won!</h2>}
-            <div className='game flex flex-col gap-2 mt-16'>
+            <div className='flex flex-col items-center h-40'>
+                <h1 className='text-7xl'>Wordle</h1>
+                {didWin && <h2 className='text-5xl mt-6'>You won!</h2>}
+                {notFound && <h2 className='text-3xl mt-6'>Word not found</h2>}
+            </div>
+            <div className='game flex flex-col gap-2'>
                 {Array.from({ length: 6 }, (_, i) => (
                     <div key={i} className='flex gap-2'>
                         {Array.from({ length: 5 }, (_, j) => (
