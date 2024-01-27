@@ -114,8 +114,12 @@ const Home = () => {
         <main className='flex min-h-screen flex-col items-center p-24'>
             <div className='flex flex-col items-center h-40'>
                 <h1 className='text-7xl'>Wordle</h1>
-                {didWin && <h2 className='text-5xl mt-6'>You won!</h2>}
-                {notFound && <h2 className='text-3xl mt-6'>Word not found</h2>}
+                {didWin && (
+                    <h2 className='text-4xl mt-6 font-light'>You won!</h2>
+                )}
+                {notFound && (
+                    <h2 className='text-3xl mt-6 font-light'>Word not found</h2>
+                )}
             </div>
             <div className='game flex flex-col gap-2'>
                 {Array.from({ length: 6 }, (_, i) => (
@@ -123,7 +127,7 @@ const Home = () => {
                         {Array.from({ length: 5 }, (_, j) => (
                             <div
                                 key={j}
-                                className={`size-20  text-5xl text-center leading-[5rem] ${
+                                className={`size-20 font-medium text-5xl text-center leading-[5rem] ${
                                     !didWin &&
                                     i === currentRow &&
                                     wordle.length === j
@@ -132,7 +136,7 @@ const Home = () => {
                                 } ${
                                     i < currentRow
                                         ? words?.[i]?.[j].color === 'GREEN'
-                                            ? 'bg-green-500'
+                                            ? 'bg-green-600'
                                             : words?.[i]?.[j].color === 'YELLOW'
                                             ? 'bg-yellow-400'
                                             : 'bg-red-600'
