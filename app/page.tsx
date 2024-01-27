@@ -10,6 +10,8 @@ interface Letter {
 const Home = () => {
     const [wordle, setWordle] = useState<string[]>([])
     const [words, setWords] = useState<Letter[][]>([])
+    const [answer, setAnswer] = useState('')
+    const [didWin, setDidWin] = useState(false)
     let currentRow = words.length
 
     const possibleWords = [
@@ -25,8 +27,6 @@ const Home = () => {
         'drive',
         'drove',
     ]
-
-    const [answer, setAnswer] = useState('')
 
     const isLetterCorrect = (
         letter: string,
@@ -45,6 +45,10 @@ const Home = () => {
 
     const handleKeystroke = useCallback(
         (e: KeyboardEvent) => {
+            if (didWin) {
+                return
+            }
+
             const char = e.key.toUpperCase()
 
             if (e.key === 'Backspace') {
@@ -53,14 +57,14 @@ const Home = () => {
             }
 
             if (wordle.length === 5 && e.key === 'Enter') {
-                // setWords(prevWords => [...prevWords, wordle.join('')])
+                if (wordle.join('') === answer) {
+                    setDidWin(true)
+                }
 
                 const guess = wordle.map((letter, idx) => ({
                     letter: letter,
                     color: isLetterCorrect(letter, idx),
                 }))
-
-                console.log(guess)
 
                 setWords(prevWords => [...prevWords, guess])
                 setWordle([])
@@ -92,21 +96,26 @@ const Home = () => {
 
     useEffect(() => {
         setAnswer(
-            possibleWords[Math.floor(Math.random() * possibleWords.length)]
+            possibleWords[
+                Math.floor(Math.random() * possibleWords.length)
+            ].toUpperCase()
         )
     }, [])
 
     return (
         <main className='flex min-h-screen flex-col items-center p-24'>
-            <h1 className='text-7xl mb-16'>Wordle</h1>
-            <div className='game flex flex-col gap-2'>
+            <h1 className='text-7xl'>Wordle</h1>
+            {didWin && <h2 className='text-5xl mt-8'>You won!</h2>}
+            <div className='game flex flex-col gap-2 mt-16'>
                 {Array.from({ length: 6 }, (_, i) => (
                     <div key={i} className='flex gap-2'>
                         {Array.from({ length: 5 }, (_, j) => (
                             <div
                                 key={j}
                                 className={`size-20  text-5xl text-center leading-[5rem] ${
-                                    i === currentRow && wordle.length === j
+                                    !didWin &&
+                                    i === currentRow &&
+                                    wordle.length === j
                                         ? 'bg-zinc-600'
                                         : 'bg-zinc-700'
                                 } ${
