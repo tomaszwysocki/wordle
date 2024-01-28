@@ -126,16 +126,22 @@ const Home = () => {
                         {Array.from({ length: 5 }, (_, j) => (
                             <div
                                 key={j}
-                                className={`size-20 border-solid border-zinc-700 border-2 font-medium text-5xl text-center leading-[78px] ${
+                                className={`size-20 border-solid transition-colors duration-0 delay-[250ms] border-zinc-700 ${
+                                    i < currentRow ? `animate-flip` : 'border-2'
+                                } font-medium text-5xl text-center leading-[81px] ${
                                     i < currentRow
                                         ? words?.[i]?.[j].color === 'GREEN'
-                                            ? 'bg-green-600 border-0'
+                                            ? 'bg-green-600'
                                             : words?.[i]?.[j].color === 'YELLOW'
-                                            ? 'bg-yellow-600 border-0'
-                                            : 'bg-zinc-800 border-0'
+                                            ? 'bg-yellow-600'
+                                            : 'bg-zinc-800'
                                         : ''
                                 }`}
                             >
+                                {(() => {
+                                    console.log(`animate-delay-[${j * 0.5}s]`)
+                                    return ''
+                                })()}
                                 {words?.[i]?.[j].letter}
                                 {i === currentRow ? wordle[j] : ''}
                             </div>
