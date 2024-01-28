@@ -14,6 +14,7 @@ const Home = () => {
     const [words, setWords] = useState<Letter[][]>([])
     const [answer, setAnswer] = useState('')
     const [didWin, setDidWin] = useState(false)
+    const [didLose, setDidLose] = useState(false)
     const [notFound, setNotFound] = useState(false)
     let currentRow = words.length
 
@@ -61,6 +62,10 @@ const Home = () => {
             if (wordle.length === 5 && e.key === 'Enter') {
                 if (wordle.join('') === answer) {
                     setDidWin(true)
+                }
+
+                if (currentRow === 5 && wordle.join('') !== answer) {
+                    setDidLose(true)
                 }
 
                 if (!possibleWords.includes(wordle.join('').toLowerCase())) {
@@ -115,6 +120,9 @@ const Home = () => {
                 <h1 className='text-7xl'>Wordle</h1>
                 {didWin && (
                     <h2 className='text-4xl mt-6 font-light'>You won!</h2>
+                )}
+                {didLose && (
+                    <h2 className='text-4xl mt-6 font-light'>You lost!</h2>
                 )}
                 {notFound && (
                     <h2 className='text-3xl mt-6 font-light'>Word not found</h2>
