@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 
-type Colors = 'GREEN' | 'YELLOW' | 'RED'
+type Colors = 'GREEN' | 'YELLOW' | 'GRAY'
 
 interface Letter {
     letter: string
@@ -30,6 +30,8 @@ const Home = () => {
         'swift',
         'drive',
         'drove',
+        'shoot',
+        'cooks',
     ]
 
     const isLetterCorrect = (letter: string, idx: number): Colors => {
@@ -41,7 +43,7 @@ const Home = () => {
             return 'YELLOW'
         }
 
-        return 'RED'
+        return 'GRAY'
     }
 
     const handleKeystroke = useCallback(
@@ -146,10 +148,6 @@ const Home = () => {
                                         : ''
                                 }`}
                             >
-                                {(() => {
-                                    console.log(`animate-delay-[${j * 0.5}s]`)
-                                    return ''
-                                })()}
                                 {words?.[i]?.[j].letter}
                                 {i === currentRow ? wordle[j] : ''}
                             </div>
