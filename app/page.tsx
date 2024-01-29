@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 type Colors = 'GREEN' | 'YELLOW' | 'GRAY'
 
@@ -18,21 +18,24 @@ const Home = () => {
     const [notFound, setNotFound] = useState(false)
     let currentRow = words.length
 
-    const possibleWords = [
-        'money',
-        'royal',
-        'lives',
-        'honks',
-        'sting',
-        'plumb',
-        'draft',
-        'choke',
-        'swift',
-        'drive',
-        'drove',
-        'shoot',
-        'cooks',
-    ]
+    const possibleWords = useMemo(
+        () => [
+            'money',
+            'royal',
+            'lives',
+            'honks',
+            'sting',
+            'plumb',
+            'draft',
+            'choke',
+            'swift',
+            'drive',
+            'drove',
+            'shoot',
+            'cooks',
+        ],
+        []
+    )
 
     const isLetterCorrect = (letter: string, idx: number): Colors => {
         if (letter === answer.toUpperCase().charAt(idx)) {
@@ -116,7 +119,7 @@ const Home = () => {
                 Math.floor(Math.random() * possibleWords.length)
             ].toUpperCase()
         )
-    }, [])
+    }, [possibleWords])
 
     return (
         <main className='flex min-h-screen flex-col items-center p-24'>
