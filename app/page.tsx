@@ -62,19 +62,19 @@ const Home = () => {
             }
 
             if (currentGuess.length === 5 && e.key === 'Enter') {
+                if (
+                    !possibleWords.includes(currentGuess.join('').toLowerCase())
+                ) {
+                    setNotFound(true)
+                    return
+                }
+
                 if (currentGuess.join('') === answer) {
                     setDidWin(true)
                 }
 
                 if (currentRow === 5 && currentGuess.join('') !== answer) {
                     setDidLose(true)
-                }
-
-                if (
-                    !possibleWords.includes(currentGuess.join('').toLowerCase())
-                ) {
-                    setNotFound(true)
-                    return
                 }
 
                 const guess = currentGuess.map((letter, idx) => ({
