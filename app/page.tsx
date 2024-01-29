@@ -10,7 +10,7 @@ interface Letter {
 }
 
 const Home = () => {
-    const [wordle, setWordle] = useState<string[]>([])
+    const [currentGuess, setCurrentGuess] = useState<string[]>([])
     const [words, setWords] = useState<Letter[][]>([])
     const [answer, setAnswer] = useState('')
     const [didWin, setDidWin] = useState(false)
@@ -46,7 +46,7 @@ const Home = () => {
         return 'GRAY'
     }
 
-    const handleKeystroke = useCallback(
+    const handleKeyPress = useCallback(
         (e: KeyboardEvent) => {
             setNotFound(false)
 
@@ -57,56 +57,58 @@ const Home = () => {
             const char = e.key.toUpperCase()
 
             if (e.key === 'Backspace') {
-                setWordle(prevWordle => prevWordle.slice(0, -1))
+                setCurrentGuess(prevGuess => prevGuess.slice(0, -1))
                 return
             }
 
-            if (wordle.length === 5 && e.key === 'Enter') {
-                if (wordle.join('') === answer) {
+            if (currentGuess.length === 5 && e.key === 'Enter') {
+                if (currentGuess.join('') === answer) {
                     setDidWin(true)
                 }
 
-                if (currentRow === 5 && wordle.join('') !== answer) {
+                if (currentRow === 5 && currentGuess.join('') !== answer) {
                     setDidLose(true)
                 }
 
-                if (!possibleWords.includes(wordle.join('').toLowerCase())) {
+                if (
+                    !possibleWords.includes(currentGuess.join('').toLowerCase())
+                ) {
                     setNotFound(true)
                     return
                 }
 
-                const guess = wordle.map((letter, idx) => ({
+                const guess = currentGuess.map((letter, idx) => ({
                     letter: letter,
                     color: isLetterCorrect(letter, idx),
                 }))
 
                 setWords(prevWords => [...prevWords, guess])
-                setWordle([])
+                setCurrentGuess([])
 
                 return
             }
 
             // return if key is not a letter or there are already 5 letters
-            if (char.length > 1 || wordle.length === 5) {
+            if (char.length > 1 || currentGuess.length === 5) {
                 return
             }
 
             if (char.toLowerCase() !== char.toUpperCase()) {
-                setWordle(prevWordle => [...prevWordle, char])
+                setCurrentGuess(prevGuess => [...prevGuess, char])
             }
         },
-        [wordle]
+        [currentGuess]
     )
 
     useEffect(() => {
-        document.addEventListener('keydown', handleKeystroke)
+        document.addEventListener('keydown', handleKeyPress)
         // console.log('mount')
 
         return () => {
-            document.removeEventListener('keydown', handleKeystroke)
+            document.removeEventListener('keydown', handleKeyPress)
             // console.log('unmount')
         }
-    }, [handleKeystroke])
+    }, [handleKeyPress])
 
     useEffect(() => {
         setAnswer(
@@ -149,7 +151,7 @@ const Home = () => {
                                 }`}
                             >
                                 {words?.[i]?.[j].letter}
-                                {i === currentRow ? wordle[j] : ''}
+                                {i === currentRow ? currentGuess[j] : ''}
                             </div>
                         ))}
                     </div>
