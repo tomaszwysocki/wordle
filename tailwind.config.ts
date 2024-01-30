@@ -23,6 +23,10 @@ const config: Config = {
             animation: {
                 flip: 'flip 500ms ease-in-out',
             },
+            borderColor: {
+                'zinc-light': 'rgb(86 87 88);',
+                'zinc-dark': 'rgb(58 58 60);',
+            },
         },
     },
     plugins: [

@@ -175,14 +175,20 @@ const Wordle = ({ wordlist, answer }: Props) => {
                     <h2 className='text-3xl mt-6 font-light'>Word not found</h2>
                 )}
             </div>
-            <div className='game flex flex-col gap-[0.6rem]'>
+            <div className='game flex flex-col gap-[0.5rem]'>
                 {Array.from({ length: 6 }, (_, i) => (
-                    <div key={i} className='flex gap-[0.6rem]'>
+                    <div key={i} className='flex gap-[0.5rem]'>
                         {Array.from({ length: 5 }, (_, j) => (
                             <div
                                 key={j}
-                                className={`size-20 border-solid transition-colors duration-0 delay-[250ms] border-zinc-700 ${
-                                    i < currentRow ? `animate-flip` : 'border-2'
+                                className={`size-20 border-solid transition-colors duration-0 ${
+                                    i <= currentRow && j < currentGuess.length
+                                        ? 'border-zinc-light'
+                                        : 'border-zinc-dark'
+                                }  ${
+                                    i < currentRow
+                                        ? `delay-[250ms] animate-flip`
+                                        : 'border-2'
                                 } font-medium text-5xl text-center leading-[81px] ${
                                     i < currentRow &&
                                     getBackgroundColor(words?.[i]?.[j].color)
