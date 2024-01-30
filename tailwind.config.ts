@@ -19,9 +19,14 @@ const config: Config = {
                     '50%': { transform: 'rotateX(90deg)' },
                     '0%, 100%': { transform: 'rotateX(0)' },
                 },
+                pop: {
+                    '60%': { transform: 'scale(1.08)' },
+                    '0%, 100%': { transform: 'scale(1)' },
+                },
             },
             animation: {
                 flip: 'flip 500ms ease-in-out',
+                pop: 'pop 150ms ease-in-out',
             },
             borderColor: {
                 'zinc-light': 'rgb(86 87 88);',
