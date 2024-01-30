@@ -201,6 +201,12 @@ const Wordle = ({ wordlist, answer }: Props) => {
                     </div>
                 ))}
             </div>
+            {didLose && (
+                <>
+                    <h2 className='text-4xl mt-4 font-light'>The answer was</h2>
+                    <span className='text-5xl mt-2 font-normal'>{answer}</span>
+                </>
+            )}
         </main>
     )
 }
