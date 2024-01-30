@@ -9,6 +9,10 @@ interface Letter {
     color: Colors
 }
 
+interface Counter {
+    [letter: string]: number
+}
+
 const Home = () => {
     const [currentGuess, setCurrentGuess] = useState<string[]>([])
     const [words, setWords] = useState<Letter[][]>([])
@@ -49,6 +53,55 @@ const Home = () => {
         return 'GRAY'
     }
 
+    const countOccurrences = (str: string, letter: string): number => {
+        return str.split(letter).length - 1
+    }
+
+    const countGreenLetters = (guess: Letter[], letter: string): number => {
+        let count = 0
+        guess.forEach(guessLetter => {
+            if (
+                guessLetter.letter === letter &&
+                guessLetter.color === 'GREEN'
+            ) {
+                count++
+            }
+        })
+        return count
+    }
+
+    const updateColors = (guess: Letter[]) => {
+        const newGuess = [...guess]
+        const counter: Counter = {}
+
+        guess.forEach(guessLetter => {
+            if (guessLetter.color === 'YELLOW') {
+                const occurrencesInAnswer = countOccurrences(
+                    answer,
+                    guessLetter.letter
+                )
+                const greensInGuess = countGreenLetters(
+                    guess,
+                    guessLetter.letter
+                )
+
+                counter[guessLetter.letter] =
+                    occurrencesInAnswer - greensInGuess
+            }
+        })
+
+        guess.forEach((guessLetter, idx) => {
+            if (guessLetter.color === 'YELLOW') {
+                if (counter[guessLetter.letter] > 0) {
+                    counter[guessLetter.letter]--
+                    return
+                }
+
+                newGuess[idx].color = 'GRAY'
+            }
+        })
+    }
+
     const handleKeyPress = useCallback(
         (e: KeyboardEvent) => {
             setNotFound(false)
@@ -85,6 +138,7 @@ const Home = () => {
                     color: isLetterCorrect(letter, idx),
                 }))
 
+                updateColors(guess)
                 setWords(prevWords => [...prevWords, guess])
                 setCurrentGuess([])
 
