@@ -7,6 +7,8 @@ export const metadata: Metadata = {
     description: 'Play Wordle now!',
 }
 
+export const dynamic = 'force-dynamic'
+
 const Home = async () => {
     const file = await fs.readFile(
         `${process.cwd()}/app/wordlist.json`,
