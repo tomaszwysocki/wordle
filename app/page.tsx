@@ -1,6 +1,11 @@
+import { Metadata } from 'next'
+import Wordle from './Wordle'
 import { promises as fs } from 'fs'
 
-import Wordle from './Wordle'
+export const metadata: Metadata = {
+    title: 'Wordle',
+    description: 'Play Wordle now!',
+}
 
 const Home = async () => {
     const file = await fs.readFile(
