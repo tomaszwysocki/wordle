@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Wordle from './Wordle'
-import { promises as fs } from 'fs'
+import { kv } from '@vercel/kv'
 
 export const metadata: Metadata = {
     title: 'Wordle',
@@ -10,12 +10,7 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic'
 
 const Home = async () => {
-    const file = await fs.readFile(
-        `${process.cwd()}/app/wordlist.json`,
-        'utf-8'
-    )
-
-    const wordlist = JSON.parse(file)
+    const wordlist = await kv.smembers('wordlist')
     const answer =
         wordlist[Math.floor(Math.random() * wordlist.length)].toUpperCase()
 
