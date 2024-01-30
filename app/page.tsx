@@ -121,6 +121,17 @@ const Home = () => {
         )
     }, [possibleWords])
 
+    const getBackgroundColor = (color: Colors) => {
+        switch (color) {
+            case 'GREEN':
+                return 'bg-green-600'
+            case 'YELLOW':
+                return 'bg-yellow-600'
+            case 'GRAY':
+                return 'bg-zinc-800'
+        }
+    }
+
     return (
         <main className='flex min-h-screen flex-col items-center p-24'>
             <div className='flex flex-col items-center h-40'>
@@ -144,13 +155,8 @@ const Home = () => {
                                 className={`size-20 border-solid transition-colors duration-0 delay-[250ms] border-zinc-700 ${
                                     i < currentRow ? `animate-flip` : 'border-2'
                                 } font-medium text-5xl text-center leading-[81px] ${
-                                    i < currentRow
-                                        ? words?.[i]?.[j].color === 'GREEN'
-                                            ? 'bg-green-600'
-                                            : words?.[i]?.[j].color === 'YELLOW'
-                                            ? 'bg-yellow-600'
-                                            : 'bg-zinc-800'
-                                        : ''
+                                    i < currentRow &&
+                                    getBackgroundColor(words?.[i]?.[j].color)
                                 }`}
                             >
                                 {words?.[i]?.[j].letter}
