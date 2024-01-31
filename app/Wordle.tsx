@@ -195,21 +195,23 @@ const Wordle = ({ wordlist, answer }: Props) => {
     }
 
     return (
-        <main className='flex min-h-screen flex-col items-center py-4'>
-            <div className='flex flex-col items-center h-[130px] sm:h-40'>
-                <h1 className='text-[50px] sm:text-[62px]'>Wordle</h1>
+        <main className='flex min-h-screen flex-col items-center py-2'>
+            <div className='flex flex-col items-center h-[110px] sm:h-40'>
+                <h1 className='text-[50px] sm:text-[62px] leading-[65px] sm:leading-[93px]'>
+                    Wordle
+                </h1>
                 {didWin && (
-                    <h2 className='text-3xl sm:text-4xl mt-2 font-light'>
+                    <h2 className='text-3xl sm:text-4xl sm:mt-2 font-light'>
                         You won!
                     </h2>
                 )}
                 {didLose && (
-                    <h2 className='text-3xl sm:text-4xl mt-2 font-light'>
+                    <h2 className='text-3xl sm:text-4xl sm:mt-2 font-light'>
                         You lost!
                     </h2>
                 )}
                 {notFound && (
-                    <h2 className='text-2xl sm:text-3xl mt-4 font-light'>
+                    <h2 className='text-2xl sm:text-3xl sm:mt-4 font-light'>
                         Word not found
                     </h2>
                 )}
@@ -250,7 +252,7 @@ const Wordle = ({ wordlist, answer }: Props) => {
                     </span>
                 </>
             )}
-            <Keyboard keyboardColors={keyboardColors} />
+            <Keyboard keyboardColors={keyboardColors} didLose={didLose} />
         </main>
     )
 }
