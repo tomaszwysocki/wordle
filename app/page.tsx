@@ -11,8 +11,7 @@ export const dynamic = 'force-dynamic'
 
 const Home = async () => {
     const wordlist = await kv.smembers('wordlist')
-    const answer =
-        wordlist[Math.floor(Math.random() * wordlist.length)].toUpperCase()
+    const answer = ((await kv.srandmember('answers')) as string).toUpperCase()
 
     return <Wordle wordlist={wordlist} answer={answer} />
 }
