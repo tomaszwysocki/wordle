@@ -31,11 +31,24 @@ const Keyboard = ({ keyboardColors }: Props) => {
         }
     }
 
+    const handleVirtualKeyPress = (key: string) => {
+        let event: KeyboardEvent
+
+        if (key === deleteKey) {
+            event = new KeyboardEvent('keydown', { key: 'Backspace' })
+        } else {
+            event = new KeyboardEvent('keydown', { key })
+        }
+
+        document.dispatchEvent(event)
+    }
+
     return (
         <div className='mt-6 grid grid-cols-10 gap-1'>
             {fullKeyboard.map((key, idx) => (
                 <div
                     key={key}
+                    onClick={() => handleVirtualKeyPress(key)}
                     className={`flex select-none cursor-pointer justify-center items-center w-[44px] h-14 text-2xl p-2 rounded ${getBackgroundColor(
                         keyboardColors[key]
                     )} ${key === 'L' ? 'col-span-2' : 'place-self-center'} ${
