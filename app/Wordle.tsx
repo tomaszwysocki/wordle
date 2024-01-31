@@ -14,6 +14,10 @@ interface Counter {
     [letter: string]: number
 }
 
+export interface KeyboardColors {
+    [letter: string]: Colors | null
+}
+
 interface Props {
     wordlist: string[]
     answer: string
@@ -25,6 +29,16 @@ const Wordle = ({ wordlist, answer }: Props) => {
     const [didWin, setDidWin] = useState(false)
     const [didLose, setDidLose] = useState(false)
     const [notFound, setNotFound] = useState(false)
+    const [keyboardColors, setKeyboardColors] = useState<KeyboardColors>(() => {
+        const letters = 'QWERTYUIOPASDFGHJKLZXCVBNM'
+        const initialObject: KeyboardColors = {}
+
+        for (const letter of letters) {
+            initialObject[letter] = null
+        }
+
+        return initialObject
+    })
     let currentRow = words.length
 
     const isLetterCorrect = (letter: string, idx: number): Colors => {
@@ -56,7 +70,7 @@ const Wordle = ({ wordlist, answer }: Props) => {
         return count
     }
 
-    const updateColors = (guess: Letter[]) => {
+    const updateGuessColors = (guess: Letter[]) => {
         const newGuess = [...guess]
         const counter: Counter = {}
 
@@ -122,7 +136,7 @@ const Wordle = ({ wordlist, answer }: Props) => {
                     color: isLetterCorrect(letter, idx),
                 }))
 
-                updateColors(guess)
+                updateGuessColors(guess)
                 setWords(prevWords => [...prevWords, guess])
                 setCurrentGuess([])
 
@@ -151,6 +165,24 @@ const Wordle = ({ wordlist, answer }: Props) => {
         }
     }, [handleKeyPress])
 
+    useEffect(() => {
+        words.forEach(word => {
+            word.forEach(letter => {
+                setKeyboardColors(prevColors => {
+                    if (
+                        keyboardColors[letter.letter] === 'GREEN' ||
+                        (keyboardColors[letter.letter] === 'YELLOW' &&
+                            letter.color !== 'GREEN')
+                    ) {
+                        return prevColors
+                    }
+
+                    return { ...prevColors, [letter.letter]: letter.color }
+                })
+            })
+        })
+    }, [words])
+
     const getBackgroundColor = (color: Colors) => {
         switch (color) {
             case 'GREEN':
@@ -163,7 +195,7 @@ const Wordle = ({ wordlist, answer }: Props) => {
     }
 
     return (
-        <main className='flex min-h-screen flex-col items-center py-8'>
+        <main className='flex min-h-screen flex-col items-center py-4'>
             <div className='flex flex-col items-center h-40'>
                 <h1 className='text-[62px]'>Wordle</h1>
                 {didWin && (
@@ -208,7 +240,7 @@ const Wordle = ({ wordlist, answer }: Props) => {
                     <span className='text-5xl mt-2 font-normal'>{answer}</span>
                 </>
             )}
-            <Keyboard />
+            <Keyboard keyboardColors={keyboardColors} />
         </main>
     )
 }
