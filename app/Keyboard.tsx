@@ -49,11 +49,12 @@ const Keyboard = ({ keyboardColors }: Props) => {
                 <div
                     key={key}
                     onClick={() => handleVirtualKeyPress(key)}
-                    className={`flex select-none cursor-pointer justify-center items-center w-[44px] h-14 text-2xl p-2 rounded ${getBackgroundColor(
+                    className={`flex select-none cursor-pointer justify-center items-center w-[34px] sm:w-[44px] h-14 sm:h-14 p-2 rounded ${getBackgroundColor(
                         keyboardColors[key]
                     )} ${key === 'L' ? 'col-span-2' : 'place-self-center'} ${
-                        (key === deleteKey || key === enterKey) &&
-                        'border-solid border-2 border-zinc-dark text-base'
+                        key === deleteKey || key === enterKey
+                            ? 'border-solid border-2 border-zinc-dark text-xs sm:text-base'
+                            : 'text-lg sm:text-2xl'
                     } ${idx > 9 && idx < 19 && 'ml-6 -mr-6'} ${
                         idx > 18 ? 'ml-6 -mr-6' : ''
                     } ${

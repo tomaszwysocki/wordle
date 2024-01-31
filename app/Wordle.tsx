@@ -196,16 +196,22 @@ const Wordle = ({ wordlist, answer }: Props) => {
 
     return (
         <main className='flex min-h-screen flex-col items-center py-4'>
-            <div className='flex flex-col items-center h-40'>
-                <h1 className='text-[62px]'>Wordle</h1>
+            <div className='flex flex-col items-center h-[130px] sm:h-40'>
+                <h1 className='text-[50px] sm:text-[62px]'>Wordle</h1>
                 {didWin && (
-                    <h2 className='text-4xl mt-3 font-light'>You won!</h2>
+                    <h2 className='text-3xl sm:text-4xl mt-2 font-light'>
+                        You won!
+                    </h2>
                 )}
                 {didLose && (
-                    <h2 className='text-4xl mt-3 font-light'>You lost!</h2>
+                    <h2 className='text-3xl sm:text-4xl mt-2 font-light'>
+                        You lost!
+                    </h2>
                 )}
                 {notFound && (
-                    <h2 className='text-3xl mt-5 font-light'>Word not found</h2>
+                    <h2 className='text-2xl sm:text-3xl mt-4 font-light'>
+                        Word not found
+                    </h2>
                 )}
             </div>
             <div className='flex flex-col gap-[0.5rem]'>
@@ -214,7 +220,7 @@ const Wordle = ({ wordlist, answer }: Props) => {
                         {Array.from({ length: 5 }, (_, j) => (
                             <div
                                 key={j}
-                                className={`flex justify-center size-16 border-solid transition-colors duration-0 items-center font-medium text-4xl text-center select-none ${
+                                className={`flex justify-center size-14 sm:size-16 border-solid transition-colors duration-0 items-center font-medium text-3xl sm:text-4xl text-center select-none ${
                                     i === currentRow && j < currentGuess.length
                                         ? 'border-zinc-light animate-pop'
                                         : 'border-zinc-dark'
@@ -236,8 +242,12 @@ const Wordle = ({ wordlist, answer }: Props) => {
             </div>
             {didLose && (
                 <>
-                    <h2 className='text-4xl mt-4 font-light'>The answer was</h2>
-                    <span className='text-5xl mt-2 font-normal'>{answer}</span>
+                    <h2 className='text-3xl sm:text-4xl mt-3 sm:mt-4 font-light'>
+                        The answer was
+                    </h2>
+                    <span className='text-4xl sm:text-5xl mt-2 font-normal'>
+                        {answer}
+                    </span>
                 </>
             )}
             <Keyboard keyboardColors={keyboardColors} />

@@ -32,6 +32,9 @@ const config: Config = {
                 'zinc-light': 'rgb(86 87 88);',
                 'zinc-dark': 'rgb(58 58 60);',
             },
+            screens: {
+                sm: '500px',
+            },
         },
     },
     plugins: [
