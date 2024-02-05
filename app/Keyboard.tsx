@@ -21,11 +21,11 @@ const Keyboard = ({ keyboardColors, didLose }: Props) => {
         color: KeyboardColors[keyof KeyboardColors]
     ) => {
         switch (color) {
-            case 'GREEN':
+            case 'green':
                 return 'bg-green-600'
-            case 'YELLOW':
+            case 'yellow':
                 return 'bg-yellow-600'
-            case 'GRAY':
+            case 'gray':
                 return 'bg-zinc-800'
             case null:
                 return 'border-solid border-zinc-dark border-2'

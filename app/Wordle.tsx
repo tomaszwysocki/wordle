@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import Keyboard from './Keyboard'
 
-type Colors = 'GREEN' | 'YELLOW' | 'GRAY'
+type Colors = 'green' | 'yellow' | 'gray'
 type GameStatus = 'playing' | 'lost' | 'won'
 
 interface Letter {
@@ -39,18 +39,18 @@ const Wordle = ({ wordlist, answer }: Props) => {
 
         return initialObject
     })
-    let currentRow = words.length
+    const currentRow = words.length
 
     const isLetterCorrect = (letter: string, idx: number): Colors => {
         if (letter === answer.toUpperCase().charAt(idx)) {
-            return 'GREEN'
+            return 'green'
         }
 
         if (answer.toUpperCase().includes(letter)) {
-            return 'YELLOW'
+            return 'yellow'
         }
 
-        return 'GRAY'
+        return 'gray'
     }
 
     const countOccurrences = (str: string, letter: string): number => {
@@ -62,7 +62,7 @@ const Wordle = ({ wordlist, answer }: Props) => {
         guess.forEach(guessLetter => {
             if (
                 guessLetter.letter === letter &&
-                guessLetter.color === 'GREEN'
+                guessLetter.color === 'green'
             ) {
                 count++
             }
@@ -75,7 +75,7 @@ const Wordle = ({ wordlist, answer }: Props) => {
         const counter: Counter = {}
 
         guess.forEach(guessLetter => {
-            if (guessLetter.color === 'YELLOW') {
+            if (guessLetter.color === 'yellow') {
                 const occurrencesInAnswer = countOccurrences(
                     answer,
                     guessLetter.letter
@@ -91,13 +91,13 @@ const Wordle = ({ wordlist, answer }: Props) => {
         })
 
         guess.forEach((guessLetter, idx) => {
-            if (guessLetter.color === 'YELLOW') {
+            if (guessLetter.color === 'yellow') {
                 if (counter[guessLetter.letter] > 0) {
                     counter[guessLetter.letter]--
                     return
                 }
 
-                newGuess[idx].color = 'GRAY'
+                newGuess[idx].color = 'gray'
             }
         })
     }
@@ -170,9 +170,9 @@ const Wordle = ({ wordlist, answer }: Props) => {
             word.forEach(letter => {
                 setKeyboardColors(prevColors => {
                     if (
-                        keyboardColors[letter.letter] === 'GREEN' ||
-                        (keyboardColors[letter.letter] === 'YELLOW' &&
-                            letter.color !== 'GREEN')
+                        keyboardColors[letter.letter] === 'green' ||
+                        (keyboardColors[letter.letter] === 'yellow' &&
+                            letter.color !== 'green')
                     ) {
                         return prevColors
                     }
@@ -185,11 +185,11 @@ const Wordle = ({ wordlist, answer }: Props) => {
 
     const getBackgroundColor = (color: Colors) => {
         switch (color) {
-            case 'GREEN':
+            case 'green':
                 return 'bg-green-600'
-            case 'YELLOW':
+            case 'yellow':
                 return 'bg-yellow-600'
-            case 'GRAY':
+            case 'gray':
                 return 'bg-zinc-800'
         }
     }
