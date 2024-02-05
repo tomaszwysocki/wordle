@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import Keyboard from './Keyboard'
 
 type Colors = 'GREEN' | 'YELLOW' | 'GRAY'
+type GameStatus = 'playing' | 'lost' | 'won'
 
 interface Letter {
     letter: string
@@ -26,8 +27,7 @@ interface Props {
 const Wordle = ({ wordlist, answer }: Props) => {
     const [currentGuess, setCurrentGuess] = useState<string[]>([])
     const [words, setWords] = useState<Letter[][]>([])
-    const [didWin, setDidWin] = useState(false)
-    const [didLose, setDidLose] = useState(false)
+    const [gameStatus, setGameStatus] = useState<GameStatus>('playing')
     const [notFound, setNotFound] = useState(false)
     const [keyboardColors, setKeyboardColors] = useState<KeyboardColors>(() => {
         const letters = 'QWERTYUIOPASDFGHJKLZXCVBNM'
@@ -106,7 +106,7 @@ const Wordle = ({ wordlist, answer }: Props) => {
         (e: KeyboardEvent) => {
             setNotFound(false)
 
-            if (didWin) {
+            if (gameStatus === 'won') {
                 return
             }
 
@@ -124,11 +124,11 @@ const Wordle = ({ wordlist, answer }: Props) => {
                 }
 
                 if (currentGuess.join('') === answer) {
-                    setDidWin(true)
+                    setGameStatus('won')
                 }
 
                 if (currentRow === 5 && currentGuess.join('') !== answer) {
-                    setDidLose(true)
+                    setGameStatus('lost')
                 }
 
                 const guess = currentGuess.map((letter, idx) => ({
@@ -200,15 +200,16 @@ const Wordle = ({ wordlist, answer }: Props) => {
                 <h1 className='text-[50px] sm:text-[62px] leading-[65px] sm:leading-[93px]'>
                     Wordle
                 </h1>
-                {didWin && (
+                {gameStatus === 'won' ? (
                     <h2 className='text-3xl sm:text-4xl sm:mt-2 font-light'>
                         You won!
                     </h2>
-                )}
-                {didLose && (
-                    <h2 className='text-3xl sm:text-4xl sm:mt-2 font-light'>
-                        You lost!
-                    </h2>
+                ) : (
+                    gameStatus === 'lost' && (
+                        <h2 className='text-3xl sm:text-4xl sm:mt-2 font-light'>
+                            You lost!
+                        </h2>
+                    )
                 )}
                 {notFound && (
                     <h2 className='text-2xl sm:text-3xl sm:mt-4 font-light'>
@@ -242,7 +243,7 @@ const Wordle = ({ wordlist, answer }: Props) => {
                     </div>
                 ))}
             </div>
-            {didLose && (
+            {gameStatus === 'lost' && (
                 <>
                     <h2 className='text-3xl sm:text-4xl mt-3 sm:mt-4 font-light'>
                         The answer was
@@ -252,7 +253,10 @@ const Wordle = ({ wordlist, answer }: Props) => {
                     </span>
                 </>
             )}
-            <Keyboard keyboardColors={keyboardColors} didLose={didLose} />
+            <Keyboard
+                keyboardColors={keyboardColors}
+                didLose={gameStatus === 'lost'}
+            />
         </main>
     )
 }
