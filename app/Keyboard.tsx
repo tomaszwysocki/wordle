@@ -1,11 +1,11 @@
 import { KeyboardColors } from './Wordle'
 
-interface Props {
+interface KeyboardProps {
     keyboardColors: KeyboardColors
     didLose: boolean
 }
 
-const Keyboard = ({ keyboardColors, didLose }: Props) => {
+const Keyboard = ({ keyboardColors, didLose }: KeyboardProps) => {
     const keyboardLetters = 'QWERTYUIOPASDFGHJKLZXCVBNM'.split('')
     const deleteKey = 'Delete'
     const enterKey = 'Enter'

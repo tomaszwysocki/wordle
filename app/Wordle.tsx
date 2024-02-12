@@ -19,12 +19,12 @@ export interface KeyboardColors {
     [letter: string]: Colors | null
 }
 
-interface Props {
+interface WordleProps {
     wordlist: string[]
     answer: string
 }
 
-const Wordle = ({ wordlist, answer }: Props) => {
+const Wordle = ({ wordlist, answer }: WordleProps) => {
     const [currentGuess, setCurrentGuess] = useState<string[]>([])
     const [words, setWords] = useState<Letter[][]>([])
     const [gameStatus, setGameStatus] = useState<GameStatus>('playing')
